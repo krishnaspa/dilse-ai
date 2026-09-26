@@ -6,7 +6,11 @@
 <title>DilSe AI — Indian AI Companions</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
 body{
 font-family:Arial,sans-serif;
@@ -181,6 +185,14 @@ justify-content:center;
 font-size:85px;
 background:linear-gradient(135deg,#3b1934,#17101e);
 position:relative;
+overflow:hidden;
+}
+
+.photo img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
 }
 
 .online{
@@ -233,6 +245,7 @@ border-radius:12px;
 background:#ff4f8b;
 color:white;
 font-weight:bold;
+cursor:pointer;
 }
 
 .create{
@@ -263,6 +276,7 @@ padding:13px 24px;
 border-radius:25px;
 font-weight:bold;
 white-space:nowrap;
+cursor:pointer;
 }
 
 footer{
@@ -273,27 +287,187 @@ color:#77717e;
 margin-top:30px;
 }
 
+/* CHAT BOX */
+
+.chat-box{
+display:none;
+position:fixed;
+inset:0;
+background:#09070dee;
+z-index:100;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.chat-window{
+width:100%;
+max-width:500px;
+height:600px;
+background:#15111b;
+border:1px solid #3b2942;
+border-radius:20px;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+box-shadow:0 20px 60px #000;
+}
+
+.chat-header{
+padding:18px;
+background:#211522;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #3a293d;
+}
+
+.chat-header h3{
+color:#ff6a9c;
+}
+
+.close-chat{
+background:none;
+border:0;
+color:#fff;
+font-size:24px;
+cursor:pointer;
+}
+
+.messages{
+flex:1;
+padding:20px;
+overflow:auto;
+}
+
+.message{
+max-width:80%;
+padding:12px 15px;
+border-radius:15px;
+margin-bottom:12px;
+line-height:1.4;
+font-size:14px;
+}
+
+.bot{
+background:#29202f;
+color:#eee;
+}
+
+.user{
+background:#ff4f8b;
+margin-left:auto;
+}
+
+.chat-input{
+display:flex;
+padding:12px;
+gap:8px;
+border-top:1px solid #302638;
+}
+
+.chat-input input{
+flex:1;
+background:#0d0a12;
+border:1px solid #3b3042;
+color:#fff;
+padding:12px;
+border-radius:20px;
+outline:none;
+}
+
+.chat-input button{
+border:0;
+background:#ff4f8b;
+color:#fff;
+padding:0 18px;
+border-radius:20px;
+font-weight:bold;
+}
+
+/* MOBILE */
+
 @media(max-width:850px){
-nav{display:none}
-.hero{padding:65px 6%}
-h1{font-size:43px}
-.grid{grid-template-columns:repeat(2,1fr)}
+
+nav{
+display:none;
+}
+
+.hero{
+padding:65px 6%;
+}
+
+h1{
+font-size:43px;
+}
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+
 }
 
 @media(max-width:520px){
-header{padding:0 20px}
-.hero{min-height:430px;padding:55px 20px}
-h1{font-size:39px}
-.hero p{font-size:16px}
-.search{width:100%}
-.search input{min-width:0}
-.section{padding:35px 20px}
-.grid{grid-template-columns:1fr 1fr;gap:12px}
-.photo{height:170px;font-size:65px}
-.info{padding:13px}
-.info h3{font-size:17px}
-.create{display:block}
-.create button{margin-top:18px}
+
+header{
+padding:0 20px;
+}
+
+.hero{
+min-height:430px;
+padding:55px 20px;
+}
+
+h1{
+font-size:39px;
+}
+
+.hero p{
+font-size:16px;
+}
+
+.search{
+width:100%;
+}
+
+.search input{
+min-width:0;
+}
+
+.section{
+padding:35px 20px;
+}
+
+.grid{
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.photo{
+height:170px;
+font-size:65px;
+}
+
+.info{
+padding:13px;
+}
+
+.info h3{
+font-size:17px;
+}
+
+.create{
+display:block;
+}
+
+.create button{
+margin-top:18px;
+}
+
+.chat-window{
+height:85vh;
+}
+
 }
 </style>
 </head>
@@ -301,6 +475,7 @@ h1{font-size:39px}
 <body>
 
 <header>
+
 <div class="logo">❤️ DilSe AI</div>
 
 <nav>
@@ -311,7 +486,9 @@ h1{font-size:39px}
 </nav>
 
 <button class="login" onclick="login()">Login</button>
+
 </header>
+
 
 <section class="hero">
 
@@ -331,148 +508,401 @@ Your conversations, your way.
 </p>
 
 <div class="search">
-<input id="search"
+
+<input
+id="search"
 placeholder="Search companions..."
 onkeyup="searchCharacters()">
 
 <button onclick="searchCharacters()">Search</button>
+
 </div>
 
 </div>
 
 </section>
+
 
 <section class="section" id="companions">
 
 <h2>Explore Indian Companions</h2>
 
 <div class="filters">
+
 <button class="filter active">All</button>
 <button class="filter">Romantic</button>
 <button class="filter">Friendly</button>
 <button class="filter">Funny</button>
 <button class="filter">Confident</button>
 <button class="filter">Caring</button>
+
 </div>
+
 
 <div class="grid">
 
+
+<!-- AAROHI -->
+
 <div class="card" data-name="Aarohi">
 
-
 <div class="photo">
-<img src="aarohi.png" alt="Aarohi" style="width:100%;height:100%;object-fit:cover;">
-<div class="info">
-<h3>Aarohi</h3>
-<div class="tags">Romantic • Caring • Understanding</div>
-<p>Warm-hearted and thoughtful. Aarohi loves meaningful conversations and is always ready to listen.</p>
-<button class="chat" onclick="startChat('Aarohi')">💬 Start Chat</button>
+
+<img src="aarohi.png" alt="Aarohi">
+
+<div class="online">
+<span class="dot"></span>Online
+</div>
 
 </div>
 
+<div class="info">
+
+<h3>Aarohi</h3>
+
+<div class="tags">
+Romantic • Caring • Understanding
+</div>
+
+<p>
+Warm-hearted and thoughtful. Aarohi loves meaningful conversations and is always ready to listen.
+</p>
+
+<button class="chat" onclick="startChat('Aarohi')">
+💬 Start Chat
+</button>
+
+</div>
+
+</div>
+
+
+<!-- MEERA -->
 
 <div class="card" data-name="Meera">
 
 <div class="photo">
+
 🌺
-<div class="online"><span class="dot"></span>Online</div>
+
+<div class="online">
+<span class="dot"></span>Online
+</div>
+
 </div>
 
 <div class="info">
+
 <h3>Meera</h3>
-<div class="tags">Creative • Friendly • Playful</div>
-<p>Creative, cheerful and easy to talk to. Meera enjoys fun conversations, stories and getting to know you.</p>
-<button class="chat" onclick="startChat('Meera')">💬 Start Chat</button>
+
+<div class="tags">
+Creative • Friendly • Playful
 </div>
+
+<p>
+Creative, cheerful and easy to talk to. Meera enjoys fun conversations, stories and getting to know you.
+</p>
+
+<button class="chat" onclick="startChat('Meera')">
+💬 Start Chat
+</button>
 
 </div>
 
+</div>
+
+
+<!-- KIARA -->
 
 <div class="card" data-name="Kiara">
 
 <div class="photo">
+
 ✨
-<div class="online"><span class="dot"></span>Online</div>
+
+<div class="online">
+<span class="dot"></span>Online
+</div>
+
 </div>
 
 <div class="info">
+
 <h3>Kiara</h3>
-<div class="tags">Confident • Witty • Ambitious</div>
-<p>Confident and energetic. Kiara enjoys lively conversations, new ideas and a little playful banter.</p>
-<button class="chat" onclick="startChat('Kiara')">💬 Start Chat</button>
+
+<div class="tags">
+Confident • Witty • Ambitious
 </div>
+
+<p>
+Confident and energetic. Kiara enjoys lively conversations, new ideas and a little playful banter.
+</p>
+
+<button class="chat" onclick="startChat('Kiara')">
+💬 Start Chat
+</button>
 
 </div>
 
+</div>
+
+
+<!-- NAINA -->
 
 <div class="card" data-name="Naina">
 
 <div class="photo">
+
 🌙
-<div class="online"><span class="dot"></span>Online</div>
+
+<div class="online">
+<span class="dot"></span>Online
+</div>
+
 </div>
 
 <div class="info">
+
 <h3>Naina</h3>
-<div class="tags">Sweet • Calm • Supportive</div>
-<p>Gentle and caring, with a calm personality. Naina loves thoughtful conversations and making you feel heard.</p>
-<button class="chat" onclick="startChat('Naina')">💬 Start Chat</button>
+
+<div class="tags">
+Sweet • Calm • Supportive
 </div>
+
+<p>
+Gentle and caring, with a calm personality. Naina loves thoughtful conversations and making you feel heard.
+</p>
+
+<button class="chat" onclick="startChat('Naina')">
+💬 Start Chat
+</button>
 
 </div>
 
 </div>
 
+</div>
+
+
+<!-- CREATE -->
 
 <div class="create" id="create">
 
 <div>
+
 <h2>✨ Create Your Own Companion</h2>
-<p>Build an original personality and create your own AI companion.</p>
+
+<p>
+Create a unique AI companion with your own name,
+personality, interests and conversation style.
+</p>
+
 </div>
 
-<button onclick="createCharacter()">＋ Create Character</button>
+<button onclick="createCharacter()">
+＋ Create Companion
+</button>
 
 </div>
 
 </section>
 
+
 <footer>
+
 © 2026 DilSe AI • Indian AI Companions
+
 </footer>
+
+
+<!-- CHAT WINDOW -->
+
+<div class="chat-box" id="chatBox">
+
+<div class="chat-window">
+
+<div class="chat-header">
+
+<h3 id="chatName">Aarohi</h3>
+
+<button class="close-chat" onclick="closeChat()">
+×
+</button>
+
+</div>
+
+
+<div class="messages" id="messages">
+
+<div class="message bot" id="welcomeMessage">
+Hi ❤️ I'm here. What would you like to talk about?
+</div>
+
+</div>
+
+
+<div class="chat-input">
+
+<input
+id="messageInput"
+placeholder="Type a message..."
+onkeydown="handleEnter(event)">
+
+<button onclick="sendMessage()">
+Send
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 
 <script>
 
+let currentCharacter = "";
+
+
+/* OPEN CHAT */
+
 function startChat(name){
-alert(name + " chat will be connected in the next step ❤️");
+
+currentCharacter = name;
+
+document.getElementById("chatName").innerText = name;
+
+document.getElementById("chatBox").style.display = "flex";
+
+document.getElementById("messages").innerHTML =
+'<div class="message bot">Hi ❤️ I\'m ' +
+name +
+'. I\'m here to chat with you.</div>';
+
+document.getElementById("messageInput").focus();
+
 }
+
+
+/* CLOSE CHAT */
+
+function closeChat(){
+
+document.getElementById("chatBox").style.display = "none";
+
+}
+
+
+/* SEND MESSAGE */
+
+function sendMessage(){
+
+let input = document.getElementById("messageInput");
+
+let message = input.value.trim();
+
+if(message === ""){
+return;
+}
+
+let messages = document.getElementById("messages");
+
+
+let userMessage =
+document.createElement("div");
+
+userMessage.className = "message user";
+
+userMessage.innerText = message;
+
+messages.appendChild(userMessage);
+
+input.value = "";
+
+messages.scrollTop = messages.scrollHeight;
+
+
+/* TEMPORARY AI REPLY */
+
+setTimeout(function(){
+
+let reply =
+document.createElement("div");
+
+reply.className = "message bot";
+
+reply.innerText =
+"That's interesting ❤️ Tell me more.";
+
+messages.appendChild(reply);
+
+messages.scrollTop = messages.scrollHeight;
+
+},700);
+
+}
+
+
+/* ENTER KEY */
+
+function handleEnter(event){
+
+if(event.key === "Enter"){
+
+sendMessage();
+
+}
+
+}
+
+
+/* CREATE CHARACTER */
 
 function createCharacter(){
-alert("Character creation will be added next ✨");
+
+alert(
+"Create Your Own Companion ✨\n\nThis feature will be connected next."
+);
+
 }
 
+
+/* LOGIN */
+
 function login(){
-alert("Login system will be connected next.");
+
+alert(
+"Login system will be connected next."
+);
+
 }
+
+
+/* SEARCH */
 
 function searchCharacters(){
 
-let query=document
+let query =
+document
 .getElementById("search")
 .value
-.toLowerCase();
+.toLowerCase()
+.trim();
 
-let cards=document.querySelectorAll(".card");
+let cards =
+document.querySelectorAll(".card");
 
-cards.forEach(card=>{
+cards.forEach(function(card){
 
-let name=card
+let name =
+card
 .getAttribute("data-name")
 .toLowerCase();
 
-card.style.display=
-name.includes(query) ? "" : "none";
+card.style.display =
+name.includes(query)
+? ""
+: "none";
 
 });
 
@@ -481,4 +911,4 @@ name.includes(query) ? "" : "none";
 </script>
 
 </body>
-</html>
+  </html>
